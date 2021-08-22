@@ -1,4 +1,4 @@
-# soduku-solver-app-java
+# sudoku-solver-app-java
 
 This is an online classic (9*9) sudoku solver  that you can enter the defined block in the app and it will solve the whole board .
 This app is made with Java and using the spring framework for the rest API,
