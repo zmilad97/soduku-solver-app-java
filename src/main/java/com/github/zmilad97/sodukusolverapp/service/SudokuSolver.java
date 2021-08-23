@@ -4,7 +4,9 @@ package com.github.zmilad97.sodukusolverapp.service;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class Pair {
     int row;
@@ -25,11 +27,55 @@ public class SudokuSolver {
     public boolean beginSolve(String data) {
         if (checkValidInputBoard(data)) {
             List<Integer[]> board = parseDataToBoard(data);
+            if (!isValidInputBoard(board))
+                return false;
             solveBoard(board);
             return true;
         } else {
             return false;
         }
+    }
+
+    private boolean isValidInputBoard(List<Integer[]> board) {
+        for (int j = 0; j < 9; j++) {
+            Set<Integer> set = new HashSet<>();
+            for (int i = 0; i < 9; i++) {
+                if (board.get(j)[i] != 0 && set.contains(board.get(j)[i]))
+                    return false;
+                else
+                    set.add(board.get(j)[i]);
+            }
+        }
+
+        for (int j = 0; j < 9; j++) {
+            Set<Integer> set = new HashSet<>();
+            for (int i = 0; i < 9; i++) {
+                if (board.get(i)[j] != 0 && set.contains(board.get(i)[j]))
+                    return false;
+                else
+                    set.add(board.get(i)[j]);
+            }
+        }
+        int x = 0;
+        for (int w = 0; w < 3; w++) {
+            int y = 0;
+            for (int z = 0; z < 3; z++) {
+                Set<Integer> set = new HashSet<>();
+                for (int i = 0; i < 3; i++) {
+                    for (int j = y; j < 3; j++) {
+                        if (board.get(i)[j] != 0 && set.contains(board.get(i)[j]))
+                            return false;
+                        else
+                            set.add(board.get(i)[j]);
+                    }
+                }
+                if (y != 6)
+                    y = y + 3;
+            }
+            if (x != 6)
+                x = x + 3;
+        }
+        return true;
     }
 
 
